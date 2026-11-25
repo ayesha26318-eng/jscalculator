@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Pro JS Calculator</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background-color: #f0f2f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    /* Calculator ki body */
+    .calculator {
+      background-color: #22252d;
+      padding: 20px;
+      border-radius: 20px;
+      box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.3);
+      width: 280px;
+    }
+
+    /* Upar wali screen */
+    #display {
+      width: 100%;
+      height: 60px;
+      background-color: #2a2d37;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 28px;
+      text-align: right;
+      padding: 10px;
+      box-sizing: border-box;
+      margin-bottom: 15px;
+    }
+
+    /* Buttons ko 4 columns ki grid mein lagana */
+    .buttons {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    button {
+      padding: 18px;
+      font-size: 18px;
+      border: none;
+      border-radius: 12px;
+      background-color: #2a2d37;
+      color: white;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #383c4a;
+    }
+
+    /* Khas buttons ke alag rang */
+    .operator { color: #f39c12; font-weight: bold; }
+    .clear { color: #e74c3c; font-weight: bold; }
+    .equal {
+      background-color: #f39c12;
+      color: white;
+      grid-column: span 2; /* '=' button ko 2 dabbon jitna chora karna */
+    }
+    .equal:hover { background-color: #e67e22; }
+  </style>
+</head>
+<body>
+
+  <div class="calculator">
+    <!-- Calculator ki Screen -->
+    <input type="text" id="display" readonly placeholder="0">
+
+    <!-- Saare Buttons -->
+    <div class="buttons">
+      <button class="clear" onclick="screenSaafKaro()">C</button>
+      <button class="operator" onclick="ekNumberMitao()">⌫</button>
+      <button class="operator" onclick="screenParLikho('%')">%</button>
+      <button class="operator" onclick="screenParLikho('/')">÷</button>
+
+      <button onclick="screenParLikho('7')">7</button>
+      <button onclick="screenParLikho('8')">8</button>
+      <button onclick="screenParLikho('9')">9</button>
+      <button class="operator" onclick="screenParLikho('*')">×</button>
+
+      <button onclick="screenParLikho('4')">4</button>
+      <button onclick="screenParLikho('5')">5</button>
+      <button onclick="screenParLikho('6')">6</button>
+      <button class="operator" onclick="screenParLikho('-')">-</button>
+
+      <button onclick="screenParLikho('1')">1</button>
+      <button onclick="screenParLikho('2')">2</button>
+      <button onclick="screenParLikho('3')">3</button>
+      <button class="operator" onclick="screenParLikho('+')">+</button>
+
+      <button onclick="screenParLikho('0')">0</button>
+      <button onclick="screenParLikho('.')">.</button>
+      <button class="equal" onclick="jawabNikalo()">=</button>
+    </div>
+  </div>
+
+  <script>
+    // Screen ko ek baar pakar kar variable mein rakh liya
+    let screen = document.getElementById("display");
+
+    // 1. Button dabane par screen par number/nishan jorna
+    function screenParLikho(value) {
+      screen.value = screen.value + value;
+    }
+
+    // 2. 'C' dabane par poori screen khali karna
+    function screenSaafKaro() {
+      screen.value = "";
+    }
+
+    // 3. Backspace (⌫) dabane par aakhri ek digit mitana
+    function ekNumberMitao() {
+      screen.value = screen.value.slice(0, -1);
+    }
+
+    // 4. '=' dabane par poora hisab solve karna
+    function jawabNikalo() {
+      try {
+        // eval() screen par likhi poori equation (jaise "5+3*2") ko solve karta hai
+        screen.value = eval(screen.value);
+      } catch (error) {
+        // Agar user galat likh de (jaise "5++2") to Error dikhaye
+        screen.value = "Error";
+      }
+    }
+  </script>
+
+</body>
+</html>
